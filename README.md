@@ -1,6 +1,6 @@
 # Prontuno Node.js SDK
 
-Typed Node.js client for the [Prontuno API](https://api.prontuno.net/v1). It supports email delivery, sending domains, suppressions, webhook endpoints, API keys, SMTP credentials, cursor pagination, and signed webhook events.
+Typed Node.js client for the [Prontuno API](https://prontuno.com/api-reference/general/introduction/). It supports email delivery, sending domains, suppressions, webhook endpoints, API keys, SMTP credentials, cursor pagination, and signed webhook events.
 
 ## Installation
 
