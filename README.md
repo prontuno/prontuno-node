@@ -356,11 +356,11 @@ for await (const key of prontuno.apiKeys.listAll({ status: "all", type: "sending
 await prontuno.apiKeys.revoke(sendingKey.id);
 ```
 
-| Type         | Scopes                                                                                                                                           |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `sending`    | `email:send` for one verified domain (`domain_id` required)                                                                                      |
-| `mcp`        | `domains:*`, `emails:read`, `inbound:read`, `suppressions:*`, `webhooks:*`, plus `email:send` with `allow_email_sending: true` and a `domain_id` |
-| `management` | The `mcp` account scopes without `email:send`, plus `api_keys:*` and `smtp_credentials:*`                                                        |
+| Type         | Scopes                                                                                                                                                         |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sending`    | `email:send` for one verified domain (`domain_id` required)                                                                                                    |
+| `mcp`        | `domains:*`, `emails:read`, `inbound:read`, `suppressions:*`, `usage:read`, `webhooks:*`, plus `email:send` with `allow_email_sending: true` and a `domain_id` |
+| `management` | The `mcp` account scopes without `email:send`, plus `api_keys:*` and `smtp_credentials:*`                                                                      |
 
 `list` and `listAll` return active keys by default; pass `status: "revoked"` or `"all"` to include others.
 
@@ -386,6 +386,20 @@ await prontuno.smtpCredentials.revoke(credential.id); // SMTP logins fail immedi
 ```
 
 Creating API keys and SMTP credentials, and resetting passwords, are never retried automatically, so a timeout can't create a duplicate secret.
+
+## Usage
+
+```ts
+const usage = await prontuno.usage.retrieve();
+
+if (usage.subscription?.is_active) {
+    console.log(usage.subscription.recipients_remaining); // null on the unlimited plan
+}
+console.log(usage.credits.balance); // prepaid credits; one covers one recipient
+console.log(usage.limits.domains); // { used: 12, limit: 1000 }, limit is null when unlimited
+```
+
+Sends draw on the subscription allowance first while it's active, then on prepaid credits. `subscription` is `null` when the team has no plan, and `recipients_remaining` is `0` while the subscription isn't active.
 
 ## Errors
 

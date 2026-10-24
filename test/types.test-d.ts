@@ -15,6 +15,8 @@ import {
     type EmailStatus,
     type SentEmailAttachment,
     type UpdateWebhookInput,
+    type Usage,
+    type UsageLimit,
     type Webhook,
     type WebhookEvent,
     type WebhookEventType,
@@ -131,6 +133,15 @@ const managementWithDomain: CreateApiKeyInput = {
 // @ts-expect-error receiving (inbound) keys can't be created through this SDK
 const receivingKey: CreateApiKeyInput = { name: "Inbox", type: "receiving" };
 
+// Usage: unlimited plans and limits are null, and teams without a plan have no subscription.
+async function usageTypes(): Promise<void> {
+    const usage = await client.usage.retrieve();
+    expectType<Equal<typeof usage, Usage>>();
+    expectType<Equal<NonNullable<Usage["subscription"]>["recipients_remaining"], number | null>>();
+    expectType<Equal<UsageLimit["limit"], number | null>>();
+    expectType<Equal<Usage["limits"]["shared_teams"], UsageLimit | null>>();
+}
+
 // Key configuration: one shared key or separate sending and management keys.
 const separateKeys = new Prontuno({ sendingKey: "send", managementKey: "manage" });
 expectType<Equal<ReturnType<typeof separateKeys.withSendingKey>, Prontuno>>();
@@ -184,6 +195,7 @@ void [
     receivingKey,
     credentialReturnTypes,
     emailContentTypes,
+    usageTypes,
 ];
 void [received, unknownStatus, create, incomplete, update, resourceReturnTypes];
 

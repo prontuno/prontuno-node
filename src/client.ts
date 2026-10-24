@@ -3,6 +3,7 @@ import { Domains } from "./resources/domains.js";
 import { Emails } from "./resources/emails.js";
 import { SmtpCredentials } from "./resources/smtp-credentials.js";
 import { Suppressions } from "./resources/suppressions.js";
+import { Usage } from "./resources/usage.js";
 import { HttpClient, type ResponseMetadata } from "./http.js";
 import { ProntunoConfigError } from "./errors.js";
 import type { ClientOptions } from "./types.js";
@@ -15,6 +16,7 @@ export class Prontuno {
     readonly webhooks: Webhooks;
     readonly apiKeys: ApiKeys;
     readonly smtpCredentials: SmtpCredentials;
+    readonly usage: Usage;
     private readonly http: HttpClient;
     private readonly options: ClientOptions;
 
@@ -34,6 +36,7 @@ export class Prontuno {
         this.webhooks = new Webhooks(this.http);
         this.apiKeys = new ApiKeys(this.http);
         this.smtpCredentials = new SmtpCredentials(this.http);
+        this.usage = new Usage(this.http);
     }
 
     /**
