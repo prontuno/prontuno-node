@@ -12,7 +12,7 @@ const DEFAULT_TIMEOUT = 30_000;
 const DEFAULT_MAX_RETRIES = 2;
 const DEFAULT_MAX_RESPONSE_SIZE = 10 * 1024 * 1024;
 const MAX_RETRY_DELAY = 60_000;
-const DEFAULT_USER_AGENT = "prontuno-node/0.1.0";
+const DEFAULT_USER_AGENT = "prontuno-node/0.2.0";
 
 export interface HttpRequestOptions extends RequestOptions {
     method?: "GET" | "POST" | "PATCH" | "DELETE";

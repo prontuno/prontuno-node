@@ -154,7 +154,7 @@ const prontuno = new Prontuno({
 });
 ```
 
-`appInfo` identifies your application in Prontuno's logs. It's added after the SDK's own User-Agent, so requests are sent as `prontuno-node/0.1.0 my-app/1.2.0`.
+`appInfo` identifies your application in Prontuno's logs. It's added after the SDK's own User-Agent, so requests are sent as `prontuno-node/0.2.0 my-app/1.2.0`.
 
 The base URL defaults to `https://api.prontuno.net/v1`. To point every client at a different endpoint without code changes, set `PRONTUNO_BASE_URL` in the environment; an explicit `baseUrl` option takes precedence, and a blank value falls back to the default.
 

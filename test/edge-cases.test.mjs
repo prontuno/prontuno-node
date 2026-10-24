@@ -61,10 +61,10 @@ describe("client configuration", () => {
         }
 
         assert.deepEqual(agents, [
-            "prontuno-node/0.1.0",
-            "prontuno-node/0.1.0",
-            "prontuno-node/0.1.0",
-            "prontuno-node/0.1.0 my-app/1.2.0",
+            "prontuno-node/0.2.0",
+            "prontuno-node/0.2.0",
+            "prontuno-node/0.2.0",
+            "prontuno-node/0.2.0 my-app/1.2.0",
         ]);
         for (const appInfo of ["my-app\r\nX-Injected: 1", 42]) {
             assert.throws(
