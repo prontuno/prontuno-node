@@ -300,6 +300,48 @@ export interface SmtpCredentialListOptions extends ListOptions {
     status?: CredentialStatusFilter;
 }
 
+export type SubscriptionPlan = "standard" | "plus" | "unlimited";
+
+export interface UsageSubscription {
+    plan: SubscriptionPlan;
+    /** Billing status, such as `active`, `past_due`, or `canceled`. */
+    status: string | null;
+    /** Whether sends currently draw on this plan's allowance. */
+    is_active: boolean;
+    period_start: string | null;
+    /** When the allowance resets. */
+    period_end: string | null;
+    cancel_at_period_end: boolean;
+    /** `null` on the unlimited plan. */
+    recipients_included: number | null;
+    recipients_used: number;
+    /** `0` while the subscription isn't active and `null` on the unlimited plan. */
+    recipients_remaining: number | null;
+}
+
+export interface UsageLimit {
+    used: number;
+    /** `null` when unlimited. */
+    limit: number | null;
+}
+
+export interface Usage {
+    /** `null` when the team has no plan. */
+    subscription: UsageSubscription | null;
+    credits: {
+        /** Prepaid credits available. One credit covers one recipient. */
+        balance: number;
+        expires_at: string | null;
+    };
+    limits: {
+        domains: UsageLimit;
+        /** Shared teams owned by the API key's owner; `null` when the key has no owning user. */
+        shared_teams: UsageLimit | null;
+        api_keys: UsageLimit;
+        smtp_credentials: UsageLimit;
+    };
+}
+
 export type SuggestedAction =
     | "fix_input"
     | "retry_later"
