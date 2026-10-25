@@ -50,7 +50,7 @@ import {
 
 interface Env {
     PRONTUNO_SENDING_KEY: string;
-    PRONTUNO_WEBHOOK_SECRET: string;
+    PRONTUNO_WEBHOOK_SIGNING_SECRET: string;
 }
 
 export default {
@@ -63,7 +63,7 @@ export default {
                 const event = constructWebhookEvent(
                     await request.text(),
                     request.headers.get("Prontuno-Signature") ?? "",
-                    env.PRONTUNO_WEBHOOK_SECRET,
+                    env.PRONTUNO_WEBHOOK_SIGNING_SECRET,
                 );
                 console.log(event.type, event.event_id);
                 return new Response(null, { status: 204 });
@@ -431,9 +431,9 @@ Prontuno signs the exact raw request body with HMAC-SHA256. Do not parse and re-
 ```ts
 import { constructWebhookEvent } from "prontuno";
 
-const webhookSecret = process.env.PRONTUNO_WEBHOOK_SECRET?.trim();
+const webhookSecret = process.env.PRONTUNO_WEBHOOK_SIGNING_SECRET?.trim();
 if (!webhookSecret) {
-    throw new Error("PRONTUNO_WEBHOOK_SECRET is required");
+    throw new Error("PRONTUNO_WEBHOOK_SIGNING_SECRET is required");
 }
 
 // Express example. Configure this route to receive a raw body.
